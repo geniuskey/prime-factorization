@@ -1,24 +1,23 @@
+from random import randint
 from unittest import TestCase
+from sympy.ntheory import factorint
 
-from prime_factors import PrimeFactors
+from prime_factors import calc_prime_factorization
 
 
 class TestPrimeFactors(TestCase):
-    def setUp(self):
-        self.pf = PrimeFactors()
 
     def test_calc_prime_factorization(self):
-        test_cases = [(2, [2]),
-                      (3, [3]),
-                      (4, [2, 2]),
-                      (6, [2, 3]),
-                      (8, [2, 2, 2]),
-                      (9, [3, 3]),
-                      (12, [2, 2, 3]),
-                      (14, [2, 7]),
-                      ]
-        for number, answer in test_cases:
+        for _ in range(10):
+            number = randint(2, 10000)
             with self.subTest(f"{number}"):
-                ret = self.pf.calc_prime_factorization(number)
-                # self.assertEqual(answer, ret)
-                self.assertEqual(1, 1)  # TODO: 수정 필요
+                answer_dict = factorint(number)
+                answer_list = []
+                for k, v in answer_dict.items():
+                    answer_list += [k] * v
+                ret = calc_prime_factorization(number)
+                self.assertEqual(answer_list, ret)
+
+
+if __name__ == '__main__':
+    print()
